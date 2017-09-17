@@ -17,19 +17,24 @@ func main() {
 
 	fmt.Print("\nInsira o nome do arquivo (com extensão): ")
 	fmt.Scanln(&textFile)
-	data, err := ioutil.ReadFile(textFile)    	
+	data, err := ioutil.ReadFile(textFile)
+	//Verifica se houve algum erro ao abrir o arquivo
+	//Caso haja, pede o nome do arquivo novamente    	
     for err != nil {
     	fmt.Print(err)
     	fmt.Print("\nInsira o nome do arquivo (com extensão): ")
 		fmt.Scanln(&textFile)
 		data, err = ioutil.ReadFile(textFile)    	
     }
+    //Lê o arquivo de texto
     entrada := strings.Fields(string(data))
 
-    //Limite direito superior
+    //Os valores da primeira linha equivalem às coordenadas
+    //do limite superior direito
     limiteSupX, err = strconv.Atoi(entrada[0])
     limiteSupY, err = strconv.Atoi(entrada[1])
 
+    //Percorre cada bloco de informação correspondente a uma sonda
     for i := 2; i < len(entrada); i+=4 {
     	//Posição X e Y da sonda
     	sondaX, err = strconv.Atoi(entrada[i])
@@ -39,6 +44,7 @@ func main() {
     	//Sequência de ações
     	inputAction = entrada[i+3]
 
+    	//Pega cada input da sequência de ação e o executa
 		for _, r := range inputAction {
 			caracter := string(r)
 
@@ -113,7 +119,7 @@ func main() {
 				fmt.Println("Entrada inválida. As entradas possíveis são: L, R ou M")
 			}
 		}
-
+		//Imprime o estado final de uma sonda
 		fmt.Println(sondaX, sondaY, sondaDir)
 	}
 }
